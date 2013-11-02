@@ -1,0 +1,5 @@
+# Binary resource files
+*.png
+*.pak
+*.gif
+*.xcf
