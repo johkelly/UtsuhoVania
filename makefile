@@ -1,5 +1,5 @@
 CC=g++
-POLYROOT="/home/jack/polycode/Release/Linux/Framework/"
+POLYROOT=""
 CFLAGS=\
 -I${POLYROOT}Core/Dependencies/include \
 -I${POLYROOT}Core/Dependencies/include/AL \
