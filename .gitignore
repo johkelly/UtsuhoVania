@@ -2,6 +2,9 @@
 .cproject
 .project
 
+# Executable
+utsuho
+
 # Compiled Object files
 *.slo
 *.lo
