@@ -13,10 +13,12 @@ ${POLYROOT}Core/Dependencies/lib/libfreetype.a \
 ${POLYROOT}Core/Dependencies/lib/liblibvorbisfile.a \
 ${POLYROOT}Core/Dependencies/lib/liblibvorbis.a \
 ${POLYROOT}Core/Dependencies/lib/liblibogg.a \
-${POLYROOT}Core/Dependencies/lib/libopenal.so ${POLYROOT}Core/Dependencies/lib/libphysfs.a \
+${POLYROOT}Core/Dependencies/lib/libopenal.so \
+${POLYROOT}Core/Dependencies/lib/libphysfs.a \
 ${POLYROOT}Core/Dependencies/lib/libpng15.a \
 ${POLYROOT}Core/Dependencies/lib/libz.a \
--lGL -lGLU -lSDL ${POLYROOT}Modules/lib/libPolycode2DPhysics.a \
+-lGL -lGLU -lSDL \
+${POLYROOT}Modules/lib/libPolycode2DPhysics.a \
 ${POLYROOT}Modules/Dependencies/lib/libBox2D.a \
 ${POLYROOT}Modules/lib/libPolycode3DPhysics.a \
 ${POLYROOT}Modules/Dependencies/lib/libBulletDynamics.a \
