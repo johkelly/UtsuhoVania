@@ -13,14 +13,21 @@ HelloPolycodeApp::HelloPolycodeApp(PolycodeView *view) : EventHandler() {
 	core->getInput()->addEventListener(this, InputEvent::EVENT_KEYUP);
 
 	CoreServices::getInstance()->getRenderer()->setTextureFilteringMode(Renderer::TEX_FILTERING_NEAREST);
-	Screen *screen = new Screen();
+	PhysicsScreen *screen = new PhysicsScreen(1, 10);
+	screen->Update();
+	mScreen = screen;
 	ScreenSprite *sprite = new ScreenSprite("Resources/MegaManSheetEven.png", 32, 32);
 	mSprite = sprite;
 	sprite->setPosition(350,150);
-	sprite->setScale(1,1);
+	sprite->setScale(4, 4);
 	screen->addChild(sprite);
 	setupAnimations();
 	mSprite->playAnimation("idleRight", 0, false);
+
+	screen->addPhysicsChild(sprite, PhysicsScreenEntity::ENTITY_RECT, false, 0, 1, 0, false, true);
+	ScreenShape* shape = new ScreenShape(ScreenShape::SHAPE_RECT, 320, 5);
+	shape->setPosition(320, 300);
+	screen->addPhysicsChild(shape, PhysicsScreenEntity::ENTITY_RECT, true, 1000);
 }
 
 void HelloPolycodeApp::setupAnimations(){
@@ -46,6 +53,7 @@ void HelloPolycodeApp::handleEvent(Event* e){
 					case KEY_LEFT:
 						facingRight = false;
 						moving = true;
+						mScreen->setVelocityX(mSprite, 64 * (facingRight? 1 : -1));
 						if(coreInput->getKeyState(KEY_SPACE)){
 							mSprite->playAnimation("jumpLeft", 0, false);
 						} else {
@@ -55,6 +63,7 @@ void HelloPolycodeApp::handleEvent(Event* e){
 					case KEY_RIGHT:
 						facingRight = true;
 						moving = true;
+						mScreen->setVelocityX(mSprite, 64 * (facingRight? 1 : -1));
 						if(coreInput->getKeyState(KEY_SPACE)){
 							mSprite->playAnimation("jumpRight", 0, false);
 						} else {
@@ -76,7 +85,9 @@ void HelloPolycodeApp::handleEvent(Event* e){
 						break;
 					case KEY_LEFT:
 					case KEY_RIGHT:
+						mScreen->setVelocityX(mSprite, 0);
 						moving = false;
+						mScreen->setVelocityX(mSprite, 0);
 						if(coreInput->getKeyState(KEY_SPACE)){
 							mSprite->playAnimation((facingRight? "jumpRight" : "jumpLeft"), 0, false);
 						} else {
@@ -94,8 +105,17 @@ HelloPolycodeApp::~HelloPolycodeApp() {
 }
 
 bool HelloPolycodeApp::Update() {
-	if(moving){
-		mSprite->Translate((facingRight? 1 : -1), 0, 0);
-	}
+	CoreInput* coreInput = core->getInput();
+//	if(moving || coreInput->getKeyState(KEY_LEFT) || coreInput->getKeyState(KEY_RIGHT)){
+//		//mSprite->Translate((facingRight? 1 : -1), 0, 0);
+//		mScreen->setVelocityX(mSprite, 64 * (facingRight? 1 : -1));
+//	} else{
+//		mScreen->setVelocityX(mSprite, 0);
+//	}
+//	if(coreInput->getKeyState(KEY_SPACE)){
+//		mScreen->setVelocityY(mSprite, -64);
+//	} else{
+//		mScreen->setVelocityY(mSprite, 64);
+//	}
     return core->updateAndRender();
 }

@@ -1,5 +1,6 @@
 CC=g++
-POLYROOT?="/home/${USER}/Polycode/Release/Linux/Framework/"
+OPTFLAGS=-O0 -g2
+POLYROOT?=/home/${USER}/Polycode/Release/Linux/Framework/
 CFLAGS=\
 -I${POLYROOT}Core/Dependencies/include \
 -I${POLYROOT}Core/Dependencies/include/AL \
@@ -26,10 +27,13 @@ ${POLYROOT}Modules/Dependencies/lib/libBulletCollision.a \
 ${POLYROOT}Modules/Dependencies/lib/libLinearMath.a \
 -lX11
 
+TileH=Tile.h TileActor.h TileScreen.h TilePlatformerApp.h
+TileC=Tile.cpp TileActor.cpp TileScreen.cpp TilePlatformerApp.cpp
+
 default: utsuho
 
 clean:
 	rm -f utsuho
 	
-utsuho:
-	$(CC) $(CFLAGS) -Iutsuho main.cpp utsuho.cpp -o utsuho $(LDFLAGS)
+utsuho: main.cpp utsuho.h utsuho.cpp ${TileH} ${TileC}
+	$(CC) ${OPTFLAGS} $(CFLAGS) main.cpp utsuho.cpp ${TileC} -o utsuho $(LDFLAGS)
