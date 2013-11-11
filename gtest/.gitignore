@@ -9,8 +9,7 @@ Makefile
 *.cmake
 
 # Executable
-utsuho
-utsuhotroid
+
 
 # Compiled Object files
 *.slo

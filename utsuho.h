@@ -1,5 +1,5 @@
 #include <Polycode.h>
-#include "PolycodeView.h"
+#include <PolycodeView.h>
 
 using namespace Polycode;
 

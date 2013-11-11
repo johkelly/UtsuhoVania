@@ -4,13 +4,13 @@
 
 # CMake intermediary files
 CMakeCache.txt
-CMakeFiles/*
+CMakeFiles/
 Makefile
 *.cmake
+Testing/
 
 # Executable
-utsuho
-utsuhotroid
+u_events_test
 
 # Compiled Object files
 *.slo
