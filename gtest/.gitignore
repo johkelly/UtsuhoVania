@@ -6,7 +6,6 @@
 CMakeCache.txt
 CMakeFiles/*
 Makefile
-*.cmake
 
 # Executable
 
