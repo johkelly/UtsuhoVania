@@ -63,7 +63,9 @@ void TileScreen::runMovement(Polycode::ScreenEntity* a, int& dx, int& dy){
 
 	// Attempt full horizontal movement
 	collBody->Translate(dx, 0, 0);
-	Update();
+	Polycode::PhysicsScreenEntity* e = getPhysicsByScreenEntity(collBody);
+	getPhysicsByScreenEntity(collBody)->Update();
+	world->Step(0,0,0);
 
 	// If colliding, find collision entity and determine maximum non-colliding motion (put this in dx)
 	while(isEntityColliding(collBody)){
@@ -89,7 +91,7 @@ void TileScreen::runMovement(Polycode::ScreenEntity* a, int& dx, int& dy){
 				}
 				int tileRewind = tile->getPosition().x
 						// Adjust based on tile positioning mode
-						+ (tile->getPositionMode() == Polycode::ScreenEntity::POSITION_CENTER ? tile->getPosition().x : 0)
+						+ (tile->getPositionMode() == Polycode::ScreenEntity::POSITION_CENTER ? tile->width/2 : 0)
 						// Adjust based on direction of travel
 						+ (dx > 0 ? tile->width : 0);
 				rewindTo = (tileRewind-backPos.x < rewindTo-backPos.x ? tileRewind : rewindTo);
@@ -100,13 +102,15 @@ void TileScreen::runMovement(Polycode::ScreenEntity* a, int& dx, int& dy){
 		dx = rewindTo;
 		// Translate collBody again
 		collBody->Translate(dx, 0, 0);
-		Update();
+		getPhysicsByScreenEntity(collBody)->Update();
+		world->Step(0,0,0);
 		// Repeat last two steps until not colliding after horizontal movement
 	}
 
 	// Attempt full vertical movement
 	collBody->Translate(0, dy, 0);
-	Update();
+	getPhysicsByScreenEntity(collBody)->Update();
+	world->Step(0,0,0);
 
 	while(isEntityColliding(collBody)){
 		// Determine y coordinates the collBody exists on (even partially)
@@ -129,11 +133,11 @@ void TileScreen::runMovement(Polycode::ScreenEntity* a, int& dx, int& dy){
 				if(tile == NULL){
 					continue;
 				}
-				int tileRewind = tile->getPosition().x
+				int tileRewind = tile->getPosition().y
 						// Adjust based on tile positioning mode
-						+ (tile->getPositionMode() == Polycode::ScreenEntity::POSITION_CENTER ? tile->getPosition().x : 0)
+						+ (tile->getPositionMode() == Polycode::ScreenEntity::POSITION_CENTER ? tile->height/2 : 0)
 						// Adjust based on direction of travel
-						+ (dx > 0 ? tile->width : 0);
+						+ (dy > 0 ? tile->height : 0);
 				rewindTo = (tileRewind-backPos.y < rewindTo-backPos.y ? tileRewind : rewindTo);
 			}
 		}
@@ -142,7 +146,8 @@ void TileScreen::runMovement(Polycode::ScreenEntity* a, int& dx, int& dy){
 		dy = rewindTo;
 		// Translate collBody again
 		collBody->Translate(0, dy, 0);
-		Update();
+		getPhysicsByScreenEntity(collBody)->Update();
+		world->Step(0,0,0);
 		// Repeat last two steps until not colliding after horizontal movement
 	}
 
