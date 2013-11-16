@@ -71,10 +71,10 @@ void TileScreen::runMovement(Polycode::ScreenEntity* a, int& dx, int& dy){
 	while(isEntityColliding(collBody)){
 		// Determine y coordinates the collBody exists on (even partially)
 		// Determine x coord, etc
-		int pixY = collBody->getPosition().y - (collBody->getPositionMode() == Polycode::ScreenEntity::POSITION_CENTER ? collBody->height/2 : 0);
-		int pixX = collBody->getPosition().x - (collBody->getPositionMode() == Polycode::ScreenEntity::POSITION_CENTER ? collBody->width/2 : 0);
-		int pixMaxY = pixY + collBody->height;
-		int pixMaxX = pixX + collBody->width;
+		int pixY = collBody->getPosition().y - collBody->height/2;
+		int pixX = collBody->getPosition().x - collBody->width/2;
+		int pixMaxY = pixY + collBody->height/2;
+		int pixMaxX = pixX + collBody->width/2;
 		int tileY = pixelToTile(pixY);
 		int tileX = pixelToTile(pixX);
 		int tileMaxY = pixelToTile(pixMaxY);
@@ -91,15 +91,17 @@ void TileScreen::runMovement(Polycode::ScreenEntity* a, int& dx, int& dy){
 				}
 				int tileRewind = tile->getPosition().x
 						// Adjust based on tile positioning mode
-						+ (tile->getPositionMode() == Polycode::ScreenEntity::POSITION_CENTER ? tile->width/2 : 0)
-						// Adjust based on direction of travel
-						+ (dx > 0 ? tile->width : 0);
+						- tile->width/2
+						// Adjust based on direction of travel, plus 1 pixel to escape collision
+						+ (dx < 0 ? tile->width + 1 : 0-1)
+						// Adjust based on entity width
+						+ collBody->width/2 * (dx < 0 ? 1 : -1);
 				rewindTo = (tileRewind-backPos.x < rewindTo-backPos.x ? tileRewind : rewindTo);
 			}
 		}
 		// Undo movement, reduce dx to minimum collected allowable
 		collBody->Translate(-dx, 0, 0);
-		dx = rewindTo;
+		dx = rewindTo-backPos.x;
 		// Translate collBody again
 		collBody->Translate(dx, 0, 0);
 		getPhysicsByScreenEntity(collBody)->Update();
