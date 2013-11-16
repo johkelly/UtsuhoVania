@@ -2,6 +2,10 @@
 .cproject
 .project
 
+# Binaries
+Resources/
+!Resources/Manifest
+
 # Executable
 utsuho
 

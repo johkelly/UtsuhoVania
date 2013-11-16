@@ -51,8 +51,8 @@ private:
 	// All TilerActor classes and subclasses must validate their movement with the TileScreen to prevent desyncs!
 	std::vector<TileActor*> actors;
 	// Convert from pixel coordinates to tile coordinates and vice versa
-	int pixelToTile(int p) { return p / Tile::TILE_SIZE; }
-	int tileToPixel(int t) { return t * Tile::TILE_SIZE; }
+	int pixelToTile(int p) { return (p-Tile::TILE_SIZE/2) / Tile::TILE_SIZE; }
+	int tileToPixel(int t) { return t * Tile::TILE_SIZE+Tile::TILE_SIZE/2; }
 };
 
 #endif /* TILESCREEN_H_ */

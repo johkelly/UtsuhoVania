@@ -18,7 +18,9 @@ TilePlatformerApp::TilePlatformerApp(PolycodeView *view) {
 	screen = new TileScreen(1, 10);
 
 	actor = new TileActor("Resources/megatiles.png", 17, 17);
-	actor->setScale(1, 2);
+	actor->setShapeSize(17, 34);
+	actor->setScale(1, 1);
+	actor->setHitbox(17, 34);
 	actor->addAnimation("idleRight", "23", 1);
 	actor->playAnimation("idleRight", 0, false);
 	screen->addTileActor(actor);
@@ -26,6 +28,7 @@ TilePlatformerApp::TilePlatformerApp(PolycodeView *view) {
 	const int ts = Tile::TILE_SIZE;
 	for(int i = 20; i > 0; --i){
 		Tile* t = new Tile("Resources/megatiles.png", "0");
+		t->setHitbox(17, 17);
 		int x = rand() % 15;
 		int y = rand() % 15;
 		screen->addTile(t, x, y);

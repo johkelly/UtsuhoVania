@@ -15,7 +15,7 @@
 
 class TileActor : public Polycode::ScreenSprite {
 public:
-	TileActorMediator* manager = NULL;
+	TileActorMediator* manager;
 
 	TileActor(Polycode::String spriteSheet, int sWidth, int sHeight);
 

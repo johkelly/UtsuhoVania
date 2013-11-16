@@ -30,6 +30,8 @@ ${POLYROOT}Modules/Dependencies/lib/libLinearMath.a \
 TileH=Tile.h TileActor.h TileScreen.h TilePlatformerApp.h
 TileC=Tile.cpp TileActor.cpp TileScreen.cpp TilePlatformerApp.cpp
 
+all: utsuho
+
 default: utsuho
 
 clean:

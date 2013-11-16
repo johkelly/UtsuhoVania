@@ -22,7 +22,7 @@ void TileScreen::addTile(Tile* t, unsigned int x, unsigned int y){
 	tiles[x][y] = t;
 	//t->setPositionMode(Polycode::ScreenEntity::POSITION_TOPLEFT);
 	// workaround since POSITION_TOPLEFT seems to be broken with addCollisionChild
-	t->setPosition(x*Tile::TILE_SIZE+Tile::TILE_SIZE/2, y*Tile::TILE_SIZE+Tile::TILE_SIZE/2);
+	t->setPosition(x*Tile::TILE_SIZE, y*Tile::TILE_SIZE);
 	t->setScale(1,1);
 	addCollisionChild(tiles[x][y], Polycode::PhysicsScreenEntity::ENTITY_RECT);
 }
@@ -63,25 +63,28 @@ void TileScreen::runMovement(Polycode::ScreenEntity* a, int& dx, int& dy){
 
 	// Attempt full horizontal movement
 	collBody->Translate(dx, 0, 0);
-	Polycode::PhysicsScreenEntity* e = getPhysicsByScreenEntity(collBody);
-	getPhysicsByScreenEntity(collBody)->Update();
-	world->Step(0,0,0);
+
+	// Assume the entity does not need to recheck its position
+	bool redoTileCheck;
 
 	// If colliding, find collision entity and determine maximum non-colliding motion (put this in dx)
-	while(isEntityColliding(collBody)){
+	do{
+		// Assume the entity does not need to recheck its position
+		redoTileCheck = false;
 		// Determine y coordinates the collBody exists on (even partially)
 		// Determine x coord, etc
+		Polycode::Rectangle entityBox = collBody->getHitbox();
 		int pixY = collBody->getPosition().y - collBody->height/2;
 		int pixX = collBody->getPosition().x - collBody->width/2;
-		int pixMaxY = pixY + collBody->height/2;
-		int pixMaxX = pixX + collBody->width/2;
+		int pixMaxY = pixY + collBody->height;
+		int pixMaxX = pixX + collBody->width;
 		int tileY = pixelToTile(pixY);
 		int tileX = pixelToTile(pixX);
 		int tileMaxY = pixelToTile(pixMaxY);
 		int tileMaxX = pixelToTile(pixMaxX);
 		// For each tile in the subgrid the actor occupies (x, y):
 		// Determine the farthest that tile will allow the actor to move in the movement direction
-		int rewindTo = backPos.x;
+		int rewind = 0;
 		for(int x = tileX; x <= tileMaxX; ++x){
 			for(int y = tileY; y <= tileMaxY; ++y){
 				// Collect the distance farthest opposite direction of travel (i.e. closest to original position)
@@ -89,25 +92,21 @@ void TileScreen::runMovement(Polycode::ScreenEntity* a, int& dx, int& dy){
 				if(tile == NULL){
 					continue;
 				}
-				int tileRewind = tile->getPosition().x
-						// Adjust based on tile positioning mode
-						- tile->width/2
-						// Adjust based on direction of travel, plus 1 pixel to escape collision
-						+ (dx < 0 ? tile->width + 1 : 0-1)
-						// Adjust based on entity width
-						+ collBody->width/2 * (dx < 0 ? 1 : -1);
-				rewindTo = (tileRewind-backPos.x < rewindTo-backPos.x ? tileRewind : rewindTo);
+				redoTileCheck = true;
+				Polycode::Rectangle tileBox = tile->getHitbox();
+				Polycode::Rectangle collBox = entityBox.Clipped(tileBox);
+				/** Tile Interaction Logic **/
+				int tileRewind = collBox.w * (dx > 0 ? -1 : 1);
+				/** End TIL **/
 			}
 		}
 		// Undo movement, reduce dx to minimum collected allowable
 		collBody->Translate(-dx, 0, 0);
-		dx = rewindTo-backPos.x;
+		dx += rewind;
 		// Translate collBody again
 		collBody->Translate(dx, 0, 0);
-		getPhysicsByScreenEntity(collBody)->Update();
-		world->Step(0,0,0);
 		// Repeat last two steps until not colliding after horizontal movement
-	}
+	}	while(redoTileCheck);
 
 	// Attempt full vertical movement
 	collBody->Translate(0, dy, 0);
