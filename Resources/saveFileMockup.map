@@ -1,0 +1,15 @@
+TILE|[|test.jgp|0|0
+TILE|=|test.jpg|0|1
+TILE|]|test.jpg|0|2
+TILE|I|test.jgp|1|0
+TILE|{|test.jpg|2|0
+TILE|}|test.jpg|2|1
+AIR|.
+RIGHT_DOOR_ENUM|D|door.jpeg|0|0|nextZone.map
+;
+[=======]
+I.......I
+I.......D
+I........
+{=======}
+;
