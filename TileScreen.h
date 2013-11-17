@@ -43,7 +43,7 @@ public:
 	// dx and dy are populated after call as actual allowable movement
 	// Precondition: *a has been added as an actor to this screen
 	// If Violated: dx and dy will be unchanged
-	virtual void runMovement(Polycode::ScreenEntity* a, int& dx, int& dy);
+	virtual void runMovement(Polycode::ScreenEntity* a, Number dx, Number dy);
 private:
 	// Tile*'s are laid out in a 2D array structure, with a mapping to their underlying collision entities
 	std::map<int, std::map<int, Tile* > > tiles;
@@ -51,8 +51,8 @@ private:
 	// All TilerActor classes and subclasses must validate their movement with the TileScreen to prevent desyncs!
 	std::vector<TileActor*> actors;
 	// Convert from pixel coordinates to tile coordinates and vice versa
-	int pixelToTile(int p) { return (p-Tile::TILE_SIZE/2) / Tile::TILE_SIZE; }
-	int tileToPixel(int t) { return t * Tile::TILE_SIZE+Tile::TILE_SIZE/2; }
+	int pixelToTile(Number p) { return floor((p+Tile::TILE_SIZE/2) / Tile::TILE_SIZE); }
+	int tileToPixel(Number t) { return t * Tile::TILE_SIZE-Tile::TILE_SIZE/2; }
 };
 
 #endif /* TILESCREEN_H_ */

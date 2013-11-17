@@ -21,7 +21,7 @@ public:
 
 	void registerTo(TileActorMediator* manager) {this->manager = manager;}
 
-	void move(int dx, int dy);
+	void move(Number dx, Number dy);
 
 private:
 };

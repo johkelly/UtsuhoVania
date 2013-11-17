@@ -14,7 +14,7 @@ class TileActorMediator {
 public:
 	TileActorMediator() {}
 	virtual ~TileActorMediator() {}
-	virtual void runMovement(Polycode::ScreenEntity* s, int& dx, int& dy) = 0;
+	virtual void runMovement(Polycode::ScreenEntity* s, Number dx, Number dy) = 0;
 };
 
 #endif /* TILEACTORMEDIATOR_H_ */

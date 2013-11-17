@@ -13,24 +13,22 @@ using namespace Polycode;
 TilePlatformerApp::TilePlatformerApp(PolycodeView *view) {
 	core = new POLYCODE_CORE(view, 640, 480, false, false, 0, 0, 90);
 
-	core->getInput()->addEventListener(this, InputEvent::EVENT_KEYDOWN);
+	//core->getInput()->addEventListener(this, InputEvent::EVENT_KEYDOWN);
 
 	screen = new TileScreen(1, 10);
 
 	actor = new TileActor("Resources/megatiles.png", 17, 17);
 	actor->setShapeSize(17, 34);
-	actor->setScale(1, 1);
 	actor->setHitbox(17, 34);
 	actor->addAnimation("idleRight", "23", 1);
 	actor->playAnimation("idleRight", 0, false);
 	screen->addTileActor(actor);
 
 	const int ts = Tile::TILE_SIZE;
-	for(int i = 20; i > 0; --i){
+	for(int i = 60; i > 0; --i){
 		Tile* t = new Tile("Resources/megatiles.png", "0");
-		t->setHitbox(17, 17);
-		int x = rand() % 15;
-		int y = rand() % 15;
+		int x = rand() % 30;
+		int y = rand() % 30;
 		screen->addTile(t, x, y);
 		tiles.push_back(t);
 	}
@@ -44,26 +42,37 @@ void TilePlatformerApp::handleEvent(Event* e){
 		InputEvent *inputEvent = (InputEvent*)e;
 
 		switch(e->getEventCode()) {
-			case InputEvent::EVENT_KEYDOWN:
-				switch (inputEvent->keyCode()) {
-				case KEY_LEFT:
-					actor->move(-7, 0);
-					break;
-				case KEY_RIGHT:
-					actor->move(7, 0);
-					break;
-				case KEY_UP:
-					actor->move(0, -7);
-					break;
-				case KEY_DOWN:
-					actor->move(0, 7);
-					break;
-				}
+		case InputEvent::EVENT_KEYDOWN:
+			switch (inputEvent->keyCode()) {
+			case KEY_LEFT:
+				actor->move(-3, 0);
 				break;
+			case KEY_RIGHT:
+				actor->move(3, 0);
+				break;
+			case KEY_UP:
+				actor->move(0, -3);
+				break;
+			case KEY_DOWN:
+				actor->move(0, 3);
+				break;
+			}
+			break;
 		}
 	}
 }
 
 bool TilePlatformerApp::Update(){
+	CoreInput* ci = core->getInput();
+	double dx = 0;
+	double dy = 0;
+	dx += (ci->getKeyState(KEY_LEFT) ? -2 : 0);
+	dx += (ci->getKeyState(KEY_RIGHT) ? 2 : 0);
+	dy += (ci->getKeyState(KEY_UP) ? -7 : 0);
+	dy += (ci->getKeyState(KEY_DOWN) ? 2 : 0);
+	dy += 5;
+	if(dx != 0 || dy != 0){
+		actor->move(dx, dy);
+	}
 	return core->updateAndRender();
 }

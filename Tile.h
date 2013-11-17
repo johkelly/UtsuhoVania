@@ -13,7 +13,7 @@
 
 class Tile : public Polycode::ScreenSprite{
 public:
-	const static int TILE_SIZE = 17;
+	const static Number TILE_SIZE = 17;
 	enum TileType{
 		INVALID,
 		EMPTY,

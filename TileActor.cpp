@@ -12,9 +12,8 @@ TileActor::TileActor(Polycode::String spriteSheet, int sWidth, int sHeight) : Po
 	setScale(1,1);
 }
 
-void TileActor::move(int dx, int dy){
+void TileActor::move(Number dx, Number dy){
 	if(manager != 0x0){
 		manager->runMovement(this, dx, dy);
 	}
-	Translate(dx, dy, 0);
 }
