@@ -1,5 +1,6 @@
 #include <Polycode.h>
 #include <PolycodeView.h>
+#include <Polycode2DPhysics.h>
 
 using namespace Polycode;
 
@@ -12,6 +13,7 @@ public:
     bool Update();
     
 private:
+	PhysicsScreen* screen;
 	ScreenSprite* mSprite;
 	Core *core;
 	bool facingRight;

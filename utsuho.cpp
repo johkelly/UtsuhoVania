@@ -1,24 +1,40 @@
 #include "utsuho.h"
 
+#include "mobile_entities/MobileEntity.h"
+#include "mobile_entities/PlatformerScreen.h"
+
+#include <iostream>
+
 HelloPolycodeApp::HelloPolycodeApp(PolycodeView *view) : EventHandler() {
 	facingRight = true;
 	moving = false;
-	
+
 	core = new POLYCODE_CORE(view, 640,480,false,false,0,0,90);
 
 	CoreServices::getInstance()->getResourceManager()->addArchive("Resources/default.pak");
 	CoreServices::getInstance()->getResourceManager()->addDirResource("default", false);
-	
+
 	core->getInput()->addEventListener(this, InputEvent::EVENT_KEYDOWN);
 	core->getInput()->addEventListener(this, InputEvent::EVENT_KEYUP);
 
 	CoreServices::getInstance()->getRenderer()->setTextureFilteringMode(Renderer::TEX_FILTERING_NEAREST);
-	Screen *screen = new Screen();
+
+	screen = new PlatformerScreen(10, 60);
+
 	ScreenSprite *sprite = new ScreenSprite("Resources/MegaManSheetEven.png", 32, 32);
 	mSprite = sprite;
-	sprite->setPosition(350,150);
-	sprite->setScale(1,1);
-	screen->addChild(sprite);
+	MobileEntity* mPlayer = new MobileEntity(screen, 32);
+	mPlayer->addChild(mSprite);
+	mPlayer->forcePosition(350, 150);
+	
+	ScreenShape* shape = new ScreenShape(ScreenShape::SHAPE_RECT, 500, 10);
+	shape->setPosition(300, 175);
+	shape->setRotation(10);
+	screen->addPhysicsChild(shape, PhysicsScreenEntity::ENTITY_RECT, true, 1000000);
+	shape = new ScreenShape(ScreenShape::SHAPE_RECT, 500, 10);
+	shape->setPosition(300, 205);
+	screen->addPhysicsChild(shape, PhysicsScreenEntity::ENTITY_RECT, true, 1000000);
+	
 	setupAnimations();
 	mSprite->playAnimation("idleRight", 0, false);
 }
@@ -36,7 +52,6 @@ void HelloPolycodeApp::handleEvent(Event* e){
 	CoreInput* coreInput = core->getInput();
 	if(e->getDispatcher() == coreInput) {
 		InputEvent *inputEvent = (InputEvent*)e;
-		
 		switch(e->getEventCode()) {
 			case InputEvent::EVENT_KEYDOWN:
 				switch (inputEvent->keyCode()) {
@@ -94,8 +109,5 @@ HelloPolycodeApp::~HelloPolycodeApp() {
 }
 
 bool HelloPolycodeApp::Update() {
-	if(moving){
-		mSprite->Translate((facingRight? 1 : -1), 0, 0);
-	}
     return core->updateAndRender();
 }
