@@ -1,7 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 PROJECT(utsuhotroid)
 
-SET(Mobile_Source PlatformerScreen.cpp MobileEntity.cpp)
+SET(Mobile_Source PlayerEntity.cpp PlatformerScreen.cpp MobileEntity.cpp)
 SET(Mobile_Test_Source UtsuhoMobile_test.cpp)
 
 # Include directories

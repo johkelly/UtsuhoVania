@@ -3,8 +3,6 @@
  */
 
 #include <PolyScreenShape.h>
-#include <PolyInputEvent.h>
-#include <PolyInputKeys.h>
 #include <PolyPhysicsScreenEntity.h>
 
 #include <iostream>
@@ -50,33 +48,6 @@ void MobileEntity::handleEvent(Event* rawEvent)
       groundContacts--;
       break;
   }
-}
-
-void MobileEntity::onKeyDown(PolyKEY key, wchar_t charCode){
-      switch(key){
-	case KEY_SPACE:
-	  host->setVelocityY(this, -jumpSpeed);
-	  jumping = true;
-	  break;
-	case KEY_LEFT:
-	  host->setVelocity(this, -runSpeed, host->getVelocity(this).y);
-	  break;
-	case KEY_RIGHT:
-	  host->setVelocity(this, runSpeed, host->getVelocity(this).y);
-	  break;
-      }
-}
-
-void MobileEntity::onKeyUp(PolyKEY key, wchar_t charCode) {
-      switch(key){
-	case KEY_SPACE:
-	  jumping = false;
-	  break;
-	case KEY_LEFT:
-	case KEY_RIGHT:
-	  host->setVelocityX(this, 0);
-	  break;
-      }
 }
 
 void MobileEntity::forcePosition(Number x, Number y) {

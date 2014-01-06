@@ -1,6 +1,6 @@
 #include "utsuho.h"
 
-#include "mobile_entities/MobileEntity.h"
+#include "mobile_entities/PlayerEntity.h"
 #include "mobile_entities/PlatformerScreen.h"
 
 #include <iostream>
@@ -23,7 +23,7 @@ HelloPolycodeApp::HelloPolycodeApp(PolycodeView *view) : EventHandler() {
 
 	ScreenSprite *sprite = new ScreenSprite("Resources/MegaManSheetEven.png", 32, 32);
 	mSprite = sprite;
-	MobileEntity* mPlayer = new MobileEntity(screen, 32);
+	MobileEntity* mPlayer = new PlayerEntity(screen, 32);
 	mPlayer->addChild(mSprite);
 	mPlayer->forcePosition(350, 150);
 	
