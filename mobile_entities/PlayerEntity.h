@@ -11,13 +11,14 @@ class PlayerEntity : public MobileEntity
 {
 public:
   
-PlayerEntity(Polycode::PhysicsScreen* physicsSource, int height) : MobileEntity(physicsSource, height) {}
+PlayerEntity(Polycode::PhysicsScreen* physicsSource, int width, int height) : MobileEntity(physicsSource, width, height) {}
   
   virtual void Update();
 virtual void onKeyDown(Polycode::PolyKEY key, wchar_t charCode);
 virtual void onKeyUp(Polycode::PolyKEY key, wchar_t charCode);
 
 private:
+  static const int runSpeed = 7;
   
   int movingInputs = 0;
 

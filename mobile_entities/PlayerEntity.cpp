@@ -20,7 +20,7 @@ void PlayerEntity::Update()
 void PlayerEntity::onKeyDown(PolyKEY key, wchar_t charCode){
       switch(key){
 	case KEY_SPACE:
-	  host->setVelocityY(this, -jumpSpeed);
+	  host->setVelocityY(this, -fallSpeed*.667);
 	  jumping = true;
 	  break;
 	case KEY_LEFT:

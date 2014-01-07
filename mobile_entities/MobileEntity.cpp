@@ -11,10 +11,10 @@
 
 using namespace Polycode;
 
-MobileEntity::MobileEntity(PhysicsScreen* physicsSource, int height) : ScreenShape(ScreenShape::SHAPE_RECT, 1, height), groundContacts(0)
+MobileEntity::MobileEntity(PhysicsScreen* physicsSource, int width, int height) : ScreenShape(ScreenShape::SHAPE_RECT, width, height), groundContacts(0)
 {
   host = physicsSource;
-  host->addPhysicsChild(this, PhysicsScreenEntity::ENTITY_RECT, false, 0, 1, 0, false, true);
+  host->addPhysicsChild(this, PhysicsScreenEntity::ENTITY_RECT, false, 0, 0, 0, false, true);
   host->addEventListener(this, PhysicsScreenEvent::EVENT_NEW_SHAPE_COLLISION);
   host->addEventListener(this, PhysicsScreenEvent::EVENT_END_SHAPE_COLLISION);
   colorAffectsChildren = false;
@@ -30,7 +30,7 @@ void MobileEntity::Update()
   if(groundContacts == 0){
     // Not grounded and falling
     if(!jumping){
-      host->setVelocityY(this, jumpSpeed*1.5);
+      host->setVelocityY(this, fallSpeed);
     }
   }
 }

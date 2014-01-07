@@ -23,7 +23,7 @@ HelloPolycodeApp::HelloPolycodeApp(PolycodeView *view) : EventHandler() {
 
 	ScreenSprite *sprite = new ScreenSprite("Resources/MegaManSheetEven.png", 32, 32);
 	mSprite = sprite;
-	MobileEntity* mPlayer = new PlayerEntity(screen, 32);
+	MobileEntity* mPlayer = new PlayerEntity(screen, 1, 32);
 	mPlayer->addChild(mSprite);
 	mPlayer->forcePosition(350, 150);
 	
@@ -34,7 +34,6 @@ HelloPolycodeApp::HelloPolycodeApp(PolycodeView *view) : EventHandler() {
 	shape = new ScreenShape(ScreenShape::SHAPE_RECT, 500, 10);
 	shape->setPosition(300, 205);
 	screen->addPhysicsChild(shape, PhysicsScreenEntity::ENTITY_RECT, true, 1000000);
-	
 	setupAnimations();
 	mSprite->playAnimation("idleRight", 0, false);
 }
