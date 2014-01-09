@@ -40,12 +40,18 @@ void MobileEntity::handleEvent(Event* rawEvent)
   PhysicsScreenEvent* event = (PhysicsScreenEvent*)rawEvent;
   switch(event->getEventCode()) {
     case PhysicsScreenEvent::EVENT_NEW_SHAPE_COLLISION:
-      // Stop our vertical motion to prevent "slipping"
-      host->setVelocityY(this, 0);
-      groundContacts++;
+      if(event->worldCollisionNormal.y > 0 && event->worldCollisionPoint.y > position.y){
+	// Stop our vertical motion to prevent "slipping"
+	host->setVelocityY(this, 0);
+	box2dContacts.insert(event->contact);
+	groundContacts++;
+      }
       break;
     case PhysicsScreenEvent::EVENT_END_SHAPE_COLLISION:
-      groundContacts--;
+      if(box2dContacts.find(event->contact) != box2dContacts.end()){
+	box2dContacts.erase(event->contact);
+	groundContacts--;
+      }
       break;
   }
 }

@@ -10,6 +10,8 @@
 #include <PolyInputKeys.h>
 #include <PolyGlobals.h>
 
+#include <set>
+
 class MobileEntity : public Polycode::ScreenShape
 {
 public:
@@ -28,6 +30,7 @@ static const int fallSpeed = 15;
 bool jumping = false;
   
 int groundContacts;
+std::set<b2Contact*> box2dContacts;
 Polycode::PhysicsScreen* host;
 
 };
