@@ -28,9 +28,7 @@ protected:
 static const int fallSpeed = 15;
 
 bool jumping = false;
-  
-int groundContacts;
-std::set<b2Contact*> box2dContacts;
+
 Polycode::PhysicsScreen* host;
 
 };
