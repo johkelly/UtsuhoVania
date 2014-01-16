@@ -16,7 +16,7 @@ void PlayerEntity::Update()
     groundContacts = 0;
   }
   if(groundContacts == 0){
-    // Not grounded and falling
+    // Not grounded and not jumping
     if(!jumping){
       host->setVelocityY(this, fallSpeed);
     }
@@ -49,6 +49,10 @@ void PlayerEntity::handleEvent(Event* rawEvent)
 
 
 void PlayerEntity::onKeyDown(PolyKEY key, wchar_t charCode){
+  if(ignoreKeys.find(key) != ignoreKeys.end()){
+    return;
+  }
+   ignoreKeys.insert(key);
       switch(key){
 	case KEY_SPACE:
 	  host->setVelocityY(this, -fallSpeed*.667);
@@ -66,6 +70,10 @@ void PlayerEntity::onKeyDown(PolyKEY key, wchar_t charCode){
 }
 
 void PlayerEntity::onKeyUp(PolyKEY key, wchar_t charCode) {
+  if(ignoreKeys.find(key) == ignoreKeys.end()){
+    return;
+  }
+  ignoreKeys.erase(key);
       switch(key){
 	case KEY_SPACE:
 	  jumping = false;

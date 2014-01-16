@@ -26,6 +26,8 @@ private:
   int groundContacts;
   std::set<b2Contact*> box2dContacts;
 
+  std::set<Polycode::PolyKEY> ignoreKeys;
+
 };
 
 #endif // PLAYERENTITY_H
