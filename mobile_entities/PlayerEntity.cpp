@@ -60,11 +60,11 @@ void PlayerEntity::onKeyDown(PolyKEY key, wchar_t charCode){
 	  break;
 	case KEY_LEFT:
 	  movingInputs++;
-	  host->setVelocity(this, -runSpeed, host->getVelocity(this).y);
+	  host->setVelocityX(this, host->getVelocity(this).x-runSpeed);
 	  break;
 	case KEY_RIGHT:
 	  movingInputs++;
-	  host->setVelocity(this, runSpeed, host->getVelocity(this).y);
+	  host->setVelocityX(this, host->getVelocity(this).x+runSpeed);
 	  break;
       }
 }
@@ -79,9 +79,12 @@ void PlayerEntity::onKeyUp(PolyKEY key, wchar_t charCode) {
 	  jumping = false;
 	  break;
 	case KEY_LEFT:
+	  movingInputs--;
+	  host->setVelocityX(this, host->getVelocity(this).x+runSpeed);
+	  break;
 	case KEY_RIGHT:
 	  movingInputs--;
-	  host->setVelocityX(this, 0);
+	  host->setVelocityX(this, host->getVelocity(this).x-runSpeed);
 	  break;
       }
 }
