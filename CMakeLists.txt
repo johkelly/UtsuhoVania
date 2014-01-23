@@ -1,6 +1,11 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 PROJECT(utsuhotroid)
 
+# Activate C++11
+if(UNIX)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x")
+endif()
+
 # User settings
 # Probably /home/${USER}/Polycode/Release/Linux/Framework/
 SET(POLYROOT "" CACHE FILEPATH "Root directory containing Release-compiled Core/ and Modules/ for including and linking.")
@@ -8,18 +13,19 @@ SET(POLYROOT "" CACHE FILEPATH "Root directory containing Release-compiled Core/
 # Subdirectories
 ADD_SUBDIRECTORY(gtest)
 ADD_SUBDIRECTORY(events)
+ADD_SUBDIRECTORY(mobile_entities)
 
-# Include folders
+# Include directories
 SET(IDIRS ${CMAKE_SOURCE_DIR})
+SET(IDIRS ${IDIRS} ${POLYROOT}/Core/include/)
 SET(IDIRS ${IDIRS} ${POLYROOT}/Core/Dependencies/include/)
 SET(IDIRS ${IDIRS} ${POLYROOT}/Core/Dependencies/include/AL/)
-SET(IDIRS ${IDIRS} ${POLYROOT}/Core/include/)
 SET(IDIRS ${IDIRS} ${POLYROOT}/Modules/include/)
 SET(IDIRS ${IDIRS} ${POLYROOT}/Modules/Dependencies/include/)
 SET(IDIRS ${IDIRS} ${POLYROOT}/Modules/Dependencies/include/bullet/)
 INCLUDE_DIRECTORIES(${IDIRS})
 
-# Link folders
+# Link directories
 SET(LDIRS ${CMAKE_BINARY_DIR})
 SET(LDIRS ${LDIRS} ${POLYROOT}/Core/lib/)
 SET(LDIRS ${LDIRS} ${POLYROOT}/Core/Dependencies/lib/)
@@ -32,7 +38,7 @@ ADD_EXECUTABLE(utsuhotroid main.cpp utsuho.cpp)
 
 # Link libraries
 SET(LIBS "")
-SET(LIBS ${LIBS} "")
+SET(LIBS ${LIBS} u_mobile)
 SET(LIBS ${LIBS} rt)
 SET(LIBS ${LIBS} dl)
 SET(LIBS ${LIBS} pthread)
