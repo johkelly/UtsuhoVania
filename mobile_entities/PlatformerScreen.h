@@ -9,7 +9,7 @@
 
 #include "MobileEntity.h"
 
-class PlatformerScreen : public Polycode::PhysicsScreen
+class PlatformerScreen : public Polycode::PhysicsScene2D
 {
 public:
 PlatformerScreen(Number worldScale, Number freq, int velIters = 10, int posIters = 10);

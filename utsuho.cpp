@@ -19,20 +19,21 @@ HelloPolycodeApp::HelloPolycodeApp(PolycodeView *view) : EventHandler() {
 
 	CoreServices::getInstance()->getRenderer()->setTextureFilteringMode(Renderer::TEX_FILTERING_NEAREST);
 
-	screen = new PlatformerScreen(10, 60);
+        screen = new PlatformerScreen(10, 60);
 
-	ScreenSprite *sprite = new ScreenSprite("Resources/MegaManSheetEven.png", 32, 32);
+	SceneSprite *sprite = new SceneSprite("Resources/MegaManSheetEven.png", 32, 32);
 	mSprite = sprite;
 	MobileEntity* mPlayer = new PlayerEntity(screen, 1, 32);
 	mPlayer->addChild(mSprite);
-	mPlayer->forcePosition(350, 150);
+	mPlayer->forcePosition(0, 150);
+        core->getInput()->addEventListener(mPlayer, InputEvent::EVENT_KEYDOWN);
+        core->getInput()->addEventListener(mPlayer, InputEvent::EVENT_KEYUP);
 	
-	ScreenShape* shape = new ScreenShape(ScreenShape::SHAPE_RECT, 500, 10);
-	shape->setPosition(300, 175);
-	shape->setRotation(10);
+	ScenePrimitive* shape;
+        shape = new ScenePrimitive(ScenePrimitive::TYPE_VPLANE, 500, 10);
+        shape->setRoll(10);
 	screen->addPhysicsChild(shape, PhysicsScreenEntity::ENTITY_RECT, true, 1000000);
-	shape = new ScreenShape(ScreenShape::SHAPE_RECT, 500, 10);
-	shape->setPosition(300, 205);
+	shape = new ScenePrimitive(ScenePrimitive::TYPE_VPLANE, 500, 10);
 	screen->addPhysicsChild(shape, PhysicsScreenEntity::ENTITY_RECT, true, 1000000);
 	setupAnimations();
 	mSprite->playAnimation("idleRight", 0, false);

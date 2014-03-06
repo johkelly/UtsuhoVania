@@ -5,6 +5,7 @@
 #include "PlayerEntity.h"
 
 #include <PolyInputKeys.h>
+#include <PolyInputEvent.h>
 
 using namespace Polycode;
 
@@ -28,10 +29,23 @@ void PlayerEntity::Update()
 
 void PlayerEntity::handleEvent(Event* rawEvent)
 {
-  PhysicsScreenEvent* event = (PhysicsScreenEvent*)rawEvent;
+    if(rawEvent->getEventType() == "InputEvent"){
+        InputEvent* event = (InputEvent*) rawEvent;
+        switch(event->getEventCode()){
+            case InputEvent::EVENT_KEYDOWN:
+                onKeyDown(event->getKey());
+                break;
+            case InputEvent::EVENT_KEYUP:
+                onKeyUp(event->getKey());
+                break;
+            default:
+                break;
+        }
+    }
+  PhysicsScene2DEvent* event = (PhysicsScene2DEvent*)rawEvent;
   switch(event->getEventCode()) {
-    case PhysicsScreenEvent::EVENT_NEW_SHAPE_COLLISION:
-      if(event->worldCollisionNormal.y > 0 && event->worldCollisionPoint.y > position.y){
+    case PhysicsScene2DEvent::EVENT_NEW_SHAPE_COLLISION:
+      if(event->worldCollisionNormal.y < 0 && event->worldCollisionPoint.y < position.y){
 	// Stop our vertical motion to prevent "slipping"
 	host->setVelocityY(this, 0);
 	box2dContacts.insert(event->contact);
@@ -48,7 +62,7 @@ void PlayerEntity::handleEvent(Event* rawEvent)
 }
 
 
-void PlayerEntity::onKeyDown(PolyKEY key, wchar_t charCode){
+void PlayerEntity::onKeyDown(PolyKEY key){
   if(ignoreKeys.find(key) != ignoreKeys.end()){
     return;
   }
@@ -69,7 +83,7 @@ void PlayerEntity::onKeyDown(PolyKEY key, wchar_t charCode){
       }
 }
 
-void PlayerEntity::onKeyUp(PolyKEY key, wchar_t charCode) {
+void PlayerEntity::onKeyUp(PolyKEY key) {
   if(ignoreKeys.find(key) == ignoreKeys.end()){
     return;
   }
