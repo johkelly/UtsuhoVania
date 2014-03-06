@@ -5,18 +5,14 @@
 #ifndef MOBILEENTITY_H
 #define MOBILEENTITY_H
 
-#include <PolyScreenShape.h>
+#include <PolyScenePrimitive.h>
 #include <PolyPhysicsScreen.h>
-#include <PolyInputKeys.h>
-#include <PolyGlobals.h>
 
-#include <set>
-
-class MobileEntity : public Polycode::ScreenShape
+class MobileEntity : public Polycode::ScenePrimitive
 {
 public:
   
-MobileEntity(Polycode::PhysicsScreen* physicsSource, int width, int height);
+MobileEntity(Polycode::PhysicsScene2D* physicsSource, int width, int height);
   
 virtual void Update();
 virtual void handleEvent(Polycode::Event* event);
@@ -25,11 +21,11 @@ virtual void forcePosition(Number x, Number y);
 
 protected:
   
-static const int fallSpeed = 15;
+static const int fallSpeed = -15;
 
 bool jumping = false;
 
-Polycode::PhysicsScreen* host;
+Polycode::PhysicsScene2D* host;
 
 };
 

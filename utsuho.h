@@ -14,7 +14,7 @@ public:
     
 private:
 	PhysicsScreen* screen;
-	ScreenSprite* mSprite;
+	SceneSprite* mSprite;
 	Core *core;
 	bool facingRight;
 	bool moving;

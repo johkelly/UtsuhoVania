@@ -9,6 +9,7 @@ SET(IDIRS ${CMAKE_SOURCE_DIR})
 SET(IDIRS ${IDIRS} ${POLYROOT}/Core/include/)
 SET(IDIRS ${IDIRS} ${POLYROOT}/Modules/include/)
 SET(IDIRS ${IDIRS} ${POLYROOT}/Modules/Dependencies/include/)
+SET(IDIRS ${IDIRS} ${POLYROOT}/Modules/Dependencies/include/bullet/)
 INCLUDE_DIRECTORIES(${IDIRS})
 
 # Compilation intermediary

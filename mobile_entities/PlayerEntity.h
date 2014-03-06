@@ -7,16 +7,18 @@
 
 #include <mobile_entities/MobileEntity.h>
 
+#include <set>
+
 class PlayerEntity : public MobileEntity
 {
 public:
   
-PlayerEntity(Polycode::PhysicsScreen* physicsSource, int width, int height) : MobileEntity(physicsSource, width, height), groundContacts(0) {}
+PlayerEntity(Polycode::PhysicsScene2D* physicsSource, int width, int height) : MobileEntity(physicsSource, width, height), groundContacts(0) {}
   
   virtual void Update();
   virtual void handleEvent(Polycode::Event* event);
-  virtual void onKeyDown(Polycode::PolyKEY key, wchar_t charCode);
-  virtual void onKeyUp(Polycode::PolyKEY key, wchar_t charCode);
+  virtual void onKeyDown(Polycode::PolyKEY key);
+  virtual void onKeyUp(Polycode::PolyKEY key);
 
 private:
   static const int runSpeed = 7;

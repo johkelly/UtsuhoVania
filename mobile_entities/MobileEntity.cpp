@@ -2,7 +2,6 @@
  * 
  */
 
-#include <PolyScreenShape.h>
 #include <PolyPhysicsScreenEntity.h>
 
 #include <iostream>
@@ -11,14 +10,14 @@
 
 using namespace Polycode;
 
-MobileEntity::MobileEntity(PhysicsScreen* physicsSource, int width, int height) : ScreenShape(ScreenShape::SHAPE_RECT, width, height)
+MobileEntity::MobileEntity(PhysicsScene2D* physicsSource, int width, int height) : ScenePrimitive(ScenePrimitive::TYPE_PLANE, width, height)
 {
   host = physicsSource;
+  setWidth(width);
+  setHeight(height);
   host->addPhysicsChild(this, PhysicsScreenEntity::ENTITY_RECT, false, 0, 0, 0, false, true);
-  host->addEventListener(this, PhysicsScreenEvent::EVENT_NEW_SHAPE_COLLISION);
-  host->addEventListener(this, PhysicsScreenEvent::EVENT_END_SHAPE_COLLISION);
-  colorAffectsChildren = false;
-  color.a = 0;
+  host->addEventListener(this, PhysicsScene2DEvent::EVENT_NEW_SHAPE_COLLISION);
+  host->addEventListener(this, PhysicsScene2DEvent::EVENT_END_SHAPE_COLLISION);
 }
 
 void MobileEntity::Update()
